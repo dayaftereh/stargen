@@ -1,0 +1,40 @@
+<!doctype html>
+
+<html lang="en" style="height: 100%;">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Stargen</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/solid.min.css"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <script>
+        // add the sun as json
+        const sun = JSON.parse("{{ json .Sun }}")
+        // add the planets as json
+        const planets = JSON.parse("{{ json .Planets }}")
+    </script>
+    <script>
+        // {{template "utils.js" . }}
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/107/three.min.js" crossorigin="anonymous">
+    </script>
+
+    {{template "content.html" . }}
+
+</body>
+
+</html>
