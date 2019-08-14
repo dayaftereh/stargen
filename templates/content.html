@@ -3,8 +3,8 @@
         <div class="col">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="threejs-tab" data-toggle="tab" href="#threejs" role="tab"
-                        aria-controls="threejs" aria-selected="true">3D</a>
+                    <a class="nav-link active" id="3d-tab" data-toggle="tab" href="#3d" role="tab" aria-controls="3d"
+                        aria-selected="true">3D</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="overview-tab" data-toggle="tab" href="#overview" role="tab"
@@ -16,11 +16,11 @@
     <div class="row">
         <div class="col">
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="threejs" role="tabpanel" aria-labelledby="threejs-tab">
-                        {{template "threejs.html" . }}
+                <div class="tab-pane fade show active" id="3d" role="tabpanel" aria-labelledby="3d-tab">
+                    {{template "3d.html" . }}
                 </div>
                 <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                        {{template "overview.html" . }}
+                    {{template "overview.html" . }}
                 </div>
             </div>
         </div>

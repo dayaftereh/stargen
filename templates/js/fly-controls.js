@@ -7,8 +7,8 @@ var FlyControls = function (object, domElement) {
     if (domElement) this.domElement.setAttribute('tabindex', - 1);
 
     // API
-    this.movementSpeed = 10.0;
-    this.rollSpeed = 0.1;
+    this.movementSpeed = distanceRatio(au2km(1.0));
+    this.rollSpeed = Math.PI / 24.0;
 
     this.dragToLook = false;
     this.autoForward = false;
@@ -27,15 +27,11 @@ var FlyControls = function (object, domElement) {
     this.rotationVector = new THREE.Vector3(0, 0, 0);
 
     this.keydown = function (event) {
-
         if (event.altKey) {
-
             return;
 
         }
-
         //event.preventDefault();
-
         this.updateMoveState(event.keyCode, 1.0)
     };
 
@@ -127,7 +123,7 @@ var FlyControls = function (object, domElement) {
 
     this.update = function (delta) {
         var moveMult = delta * this.movementSpeed * this.movementSpeedMultiplier;
-        var rotMult = delta * this.rollSpeed * this.movementSpeedMultiplier;
+        var rotMult = delta * this.rollSpeed;
 
         this.object.translateX(this.moveVector.x * moveMult);
         this.object.translateY(this.moveVector.y * moveMult);

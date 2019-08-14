@@ -1,11 +1,18 @@
 package display
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"io"
 	"os"
 	"path"
+
+	"github.com/dayaftereh/stargen/mathf"
+	"github.com/dayaftereh/stargen/stargen"
+	"github.com/dayaftereh/stargen/stargen/constants"
+	"github.com/dayaftereh/stargen/types"
 )
 
 type DisplayTemplate struct {
@@ -31,9 +38,16 @@ func loadTemplates(templateDirectory string) (*template.Template, error) {
 		return nil, err
 	}
 
-	jsGlob := path.Join(templateDirectory, "*.js")
+	jsGlob := path.Join(templateDirectory, "js", "*.js")
 	tmpl, err = tmpl.ParseGlob(jsGlob)
-	return tmpl, nil
+	if err != nil {
+		return nil, err
+	}
+
+	shaderGlob := path.Join(templateDirectory, "shader", "*")
+	tmpl, err = tmpl.ParseGlob(shaderGlob)
+
+	return tmpl, err
 }
 
 func defaultFuncMap() template.FuncMap {
@@ -46,12 +60,55 @@ func defaultFuncMap() template.FuncMap {
 
 			return string(bytes)
 		},
+		"orbits": func(context *Context) string {
+			return Orbits(context.Planets, context.Sun)
+		},
 	}
 
 	return funcMap
 }
 
+func Orbits(planets []*types.Planet, sun *types.Sun) string {
+	orbits := stargen.Orbits(planets, sun)
+
+	planetsPositions := make([][]*mathf.Vec3, 0)
+
+	for _, o := range orbits {
+		period := o.Period()
+
+		positions := make([]*mathf.Vec3, 0)
+
+		loops := 1000
+		for i := 1; i < loops; i++ {
+			dt := float64(i) * (period / float64(loops))
+			newOrbit := o.Update(dt)
+			position := newOrbit.Position()
+			positions = append(positions, mathf.NewVec3(
+				position.X/constants.KMPerAU, position.Y/constants.KMPerAU, position.Z/constants.KMPerAU,
+			))
+		}
+
+		planetsPositions = append(planetsPositions, positions)
+	}
+
+	bytes, err := json.Marshal(planetsPositions)
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(bytes)
+}
+
 func (displayTemplate *DisplayTemplate) Generate(context *Context, name string) error {
+	buf := make([]byte, 0)
+	buffer := bytes.NewBuffer(buf)
+
+	// execute and output the template
+	err := displayTemplate.template.Execute(buffer, context)
+	if err != nil {
+		return err
+	}
+
 	// check if the output directory exists
 	exists, err := Exists(displayTemplate.output)
 	if err != nil {
@@ -77,8 +134,7 @@ func (displayTemplate *DisplayTemplate) Generate(context *Context, name string) 
 	// close the file at the end
 	defer f.Close()
 
-	// execute and output the template
-	err = displayTemplate.template.Execute(f, context)
+	io.WriteString(f, buffer.String())
 
 	return err
 }

@@ -6,11 +6,8 @@
   digest = "1:0a961a435eed8aec72583ba7ea3df6cd70ec10573f9565907ad8b972119cc520"
   name = "github.com/dayaftereh/discover"
   packages = [
-    "server/game/persistence/types",
-    "server/game/universe/generator/stargen/types",
     "server/mathf",
     "server/utils",
-    "server/utils/container",
   ]
   pruneopts = ""
   revision = "af59c4b06224ac660efb656357782098626e2b18"
@@ -51,11 +48,8 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/dayaftereh/discover/server/game/persistence/types",
-    "github.com/dayaftereh/discover/server/game/universe/generator/stargen/types",
     "github.com/dayaftereh/discover/server/mathf",
     "github.com/dayaftereh/discover/server/utils",
-    "github.com/dayaftereh/discover/server/utils/container",
     "gonum.org/v1/gonum/mat",
   ]
   solver-name = "gps-cdcl"

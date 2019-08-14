@@ -45,3 +45,15 @@ func EFix(x, y, w, z float64) (float64, float64) {
 	b := (y - z) / (math.Exp(x) - math.Exp(w))
 	return a, b
 }
+
+func Clamp(v float64, min float64, max float64) float64 {
+	return math.Min(math.Max(v, min), max)
+}
+
+func ToRadians(degrees float64) float64 {
+	return degrees * (math.Pi / 180.0)
+}
+
+func ToDegress(radians float64) float64 {
+	return radians * (180.0 / math.Pi)
+}

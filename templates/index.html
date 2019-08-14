@@ -19,9 +19,8 @@
         const sun = JSON.parse("{{ json .Sun }}")
         // add the planets as json
         const planets = JSON.parse("{{ json .Planets }}")
-    </script>
-    <script>
-        // {{template "utils.js" . }}
+
+        const orbits = JSON.parse("{{ orbits . }}")
     </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous">
@@ -34,6 +33,10 @@
     </script>
 
     {{template "content.html" . }}
+
+    <script>
+            // {{ template "index.js" .  }}
+    </script>
 
 </body>
 
