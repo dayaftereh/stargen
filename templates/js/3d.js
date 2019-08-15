@@ -31,6 +31,10 @@ function init() {
     // create the scene
     scene = new THREE.Scene();
 
+    const directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight.position.set(au2km(4), 0, au2km(4));
+    scene.add(directionalLight);
+
     const axesHelper = new THREE.AxesHelper(au2km(10));
     scene.add(axesHelper)
 

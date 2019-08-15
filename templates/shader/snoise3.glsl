@@ -93,9 +93,9 @@ float noise(vec3 position, int octaves, float frequency, float persistence) {
 	float maxAmplitude = 0.0;
     float amplitude = 1.0;
 	for (int i = 0; i < 1000; i++) {
-        if (i >= octaves){
+    if (i >= octaves){
 	        break;
-	    }
+	  }
 		total += snoise(position * frequency) * amplitude;
 		frequency *= 2.0;
 		maxAmplitude += amplitude;
@@ -109,9 +109,9 @@ float absNoise(vec3 position, int octaves, float frequency, float persistence) {
 	float maxAmplitude = 0.0;
     float amplitude = 1.0;
 	for (int i = 0; i < 1000; i++) {
-        if (i >= octaves){
+    if (i >= octaves){
 	        break;
-	    }
+	  }
 		total += abs(snoise(position * frequency)) * amplitude;
 		frequency *= 2.0;
 		maxAmplitude += amplitude;
