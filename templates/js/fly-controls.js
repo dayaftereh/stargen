@@ -7,7 +7,7 @@ var FlyControls = function (object, domElement) {
     if (domElement) this.domElement.setAttribute('tabindex', - 1);
 
     // API
-    this.movementSpeed = distanceRatio(au2km(1.0));
+    this.movementSpeed = 1.0;
     this.rollSpeed = Math.PI / 24.0;
 
     this.dragToLook = false;

@@ -2,6 +2,7 @@
 // {{ template "sun.js" . }}
 // {{ template "planet.js" . }}
 // {{ template "fly-controls.js" . }}
+// {{ template "trackball-controls.js" . }}
 
 const width = window.innerWidth
 const height = window.innerHeight;
@@ -22,10 +23,10 @@ function init() {
     renderer.setSize(width, height);
 
     // create the camera
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.001, au2km(400));
-    camera.position.z = semiMajorAxis(au2km(4))
-    camera.position.y = semiMajorAxis(au2km(1))
-    camera.position.x = semiMajorAxis(au2km(1))
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.001, km2World(au2km(400)));
+    camera.position.z = radiusWorld(sunRadius()*2.0)
+    camera.position.y = km2World(au2km(1))
+    camera.position.x = km2World(au2km(1))
     camera.lookAt(0, 0, 0)
 
     // create the scene
@@ -42,7 +43,9 @@ function init() {
     scene.add(world)
 
     clock = new THREE.Clock()
-    control = new FlyControls(camera, canvas)
+
+    control = new TrackballControls(camera, canvas)
+    //control.movementSpeed = km2World(au2km(0.1))
 
     // resize
     window.addEventListener('resize', onWindowResize, false);
@@ -50,12 +53,12 @@ function init() {
 
 function loadObjects() {
     // load the sun
-    sunObject = new Sun(sun)
+    sunObject = new Sun(sun, camera)
     world.add(sunObject.mesh)
 
     // load all planets
     planets.forEach((planet, index) => {
-        const planetObject = new Planet(index, planet)
+        const planetObject = new Planet(index, planet, camera)
         planetObjects.push(planetObject)
         world.add(planetObject.mesh)
         world.add(planetObject.orbit)

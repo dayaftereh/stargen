@@ -20,6 +20,7 @@ func main() {
 	}
 
 	r := random.NewRandom()
+	log.Printf("Seed: %d", r.Seed())
 	sun, planets := stargen.Generate(r, true, true, true)
 
 	displayContext := display.NewContext(sun, planets)

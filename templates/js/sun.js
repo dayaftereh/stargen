@@ -1,8 +1,9 @@
 
 class Sun {
 
-    constructor(data) {
+    constructor(data, camera) {
         this.data = data
+        this.camera = camera
 
         this.dt = 0;
 
@@ -21,22 +22,32 @@ class Sun {
         this.geometry = new THREE.SphereBufferGeometry(this.radius(), 100, 100);
         this.mesh = new THREE.Mesh(this.geometry, this.material);
 
-        const coronaSize = (this.radius() * 2.0) * 4.0
+        const coronaSize = (this.radius() * 2.0) * 3.0
         const coronaGeometry = new THREE.PlaneBufferGeometry(coronaSize, coronaSize, 32);
-        const coronaMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide })
-        const corona = new THREE.Mesh(coronaGeometry, coronaMaterial);
-
-        this.mesh.add(corona)
+        this.coronaMaterial = new THREE.ShaderMaterial({
+            transparent: true,
+            uniforms: {
+                time: { value: 1 },
+                coronaSize: { value: coronaSize },
+                radius: { value: this.radius() }
+            },
+            vertexShader: `{{ template "corona.vert" }}`,
+            fragmentShader: `{{ template "corona.frag" }}`,
+        })
+        this.corona = new THREE.Mesh(coronaGeometry, this.coronaMaterial);
+        this.mesh.add(this.corona)
     }
 
     radius() {
-        return sizeScaleRatio(sunRadius());
+        return radiusWorld(sunRadius());
     }
 
     update(delta) {
+        this.corona.lookAt(this.camera.position)
+
         this.dt += delta * 0.05
         this.material.uniforms.time.value = this.dt
-
+        this.coronaMaterial.uniforms.time.value = this.dt
     }
 
     color() {
