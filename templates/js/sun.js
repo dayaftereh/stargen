@@ -4,12 +4,12 @@ class Sun {
     constructor(data, camera) {
         this.data = data
         this.camera = camera
+        this.enabled = true
 
         this.dt = 0;
 
         const color = new THREE.Color(this.data.color)
         this.material = new THREE.ShaderMaterial({
-
             uniforms: {
                 time: { value: 1 },
                 radius: { value: this.radius() },
@@ -21,6 +21,7 @@ class Sun {
 
         this.geometry = new THREE.SphereBufferGeometry(this.radius(), 100, 100);
         this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.mesh.name = "sun"
 
         const coronaSize = (this.radius() * 2.0) * 3.0
         const coronaGeometry = new THREE.PlaneBufferGeometry(coronaSize, coronaSize, 32);

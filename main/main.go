@@ -2,30 +2,20 @@ package main
 
 import (
 	"log"
-
-	"github.com/dayaftereh/stargen/mathf/random"
-
-	"github.com/dayaftereh/stargen/stargen"
-
-	"github.com/dayaftereh/stargen/display"
+	"time"
 )
 
 func main() {
 	output := "./dist"
 	templates := "./templates"
 
-	displayTemplates, err := display.NewDisplayTemplate(templates, output)
-	if err != nil {
-		log.Panicln(err)
-	}
+	// create a new seed
+	now := time.Now()
+	seed := now.Unix()
+	log.Printf("Seed: %d", seed)
 
-	r := random.NewRandom()
-	log.Printf("Seed: %d", r.Seed())
-	sun, planets := stargen.Generate(r, true, true, true)
-
-	displayContext := display.NewContext(sun, planets)
-
-	err = displayTemplates.Generate(displayContext, "foo")
+	// generate and render star system
+	err := Generate(templates, output, seed, "main")
 	if err != nil {
 		log.Panicln(err)
 	}

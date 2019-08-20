@@ -1,4 +1,8 @@
 
+function worldScale() {
+    return 1000.0
+}
+
 function au2km(au) {
     return au * 149597870.700
 }
@@ -12,35 +16,25 @@ function sunRadius() {
     return radiusKM
 }
 
+function maxSemiMajorAxis(){
+    const max = Math.max(...planets.map(planet => {
+        return planet.semiMajorAxis
+    }))
+    return max
+}
+
 /* KM -> world */
 function radiusWorld(km) {
-
     const worldKm = km2World(km)
-
-    const sunRatio = km / sunRadius()
-
-    const fillRatio = (1.0 - sunRatio) * 2.0
-
-    return worldKm + fillRatio + sunRatio * 5.0
+    const sunRatio = km / sunRadius()*2.0
+    const fillRatio = (1.0 - sunRatio) * 0.25
+    return worldKm + fillRatio + sunRatio
 }
 
-function semiMajorAxis(km) {
-    return km
-}
-
-/* KM -> world */
-function distanceRatio(km) {
-    const max = Math.max(...planets.map(planet => {
-        return planet.semiMajorAxis
-    }))
-    return km
-}
-
+/* km -> world */
 function km2World(km) {
-    const max = Math.max(...planets.map(planet => {
-        return planet.semiMajorAxis
-    }))
-    return (km / au2km(max)) * 1000.0
+    const max = maxSemiMajorAxis()
+    return (km / au2km(max)) * worldScale()
 }
 
 function createOrbitLines(radius, lines) {
@@ -64,7 +58,7 @@ function createOrbitLines(radius, lines) {
     return line
 }
 
-
+console.log(sun.class)
 console.log(`Sun Radius: ${sunRadius()} km / ${km2au(sunRadius())} AU`);
 console.log(`sunRadiusWorld: ${radiusWorld(sunRadius())}`);
 

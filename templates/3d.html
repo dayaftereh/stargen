@@ -1,5 +1,29 @@
 <div class="row">
     <div class="col">
-        <canvas id="canvas"></canvas>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="starSystemMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Star-System
+            </button>
+            <div class="dropdown-menu" aria-labelledby="starSystemMenuButton">
+                <a id="3d-dropdown-sun" class="dropdown-item" href="#">Sun</a>
+                {{ range $i, $a := .Planets}}
+                <a id="3d-dropdown-planet-{{$i}}" class="dropdown-item" href="#">Planet-{{$i}}</a>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
